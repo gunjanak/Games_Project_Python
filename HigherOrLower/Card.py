@@ -14,10 +14,10 @@ class Card():
         fileName = 'Images/' + self.cardName + '.png'
         #set some starting location;
         # use setLoc below to change
-        self.imgaes = pygwidgets.ImageCollection(window,(0,0),{'font':fileName,'back':Card.BACK_OF_CARD_IMAGE},'back')
+        self.images = pygwidgets.ImageCollection(window,(0,0),{'front':fileName,'back':Card.BACK_OF_CARD_IMAGE},'back')
 
     def conceal(self):
-        self.imgaes.replace('back')
+        self.images.replace('back')
 
     def reveal(self):
         self.images.replace('front')
@@ -35,13 +35,13 @@ class Card():
         return self.rank
     
     def setLoc(self,loc):#cal the setLoc method of the ImageCollection
-        self.imgaes.setLoc(loc)
+        self.images.setLoc(loc)
 
     def getLoc(self):#get the location form the ImageCollection
-        loc = self.imgaes.getLoc()
+        loc = self.images.getLoc()
         return loc
     
 
     def draw(self):
-        self.imgaes.draw()
+        self.images.draw()
 

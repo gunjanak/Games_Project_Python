@@ -26,7 +26,7 @@ class Game():
                                                   fontSize=36,textColor=WHITE)
         self.loserSound = pygame.mixer.Sound("Sounds/loser.wav")
         self.winnerSound = pygame.mixer.Sound("Sounds/ding.wav")
-        self.cardShuffleSound = pygame.mixer.Sound("Sound/cardShuffle.wav")
+        self.cardShuffleSound = pygame.mixer.Sound("Sounds/cardShuffle.wav")
 
         self.cardXPositionsList = []
         thisLeft = Game.CARDS_LEFT
@@ -52,7 +52,7 @@ class Game():
 
         self.showCard(0)
         self.cardNumber = 0
-        self.currentCardName, self.currentCardValue = self.getCardNameAnadValue(self.cardNumber)
+        self.currentCardName, self.currentCardValue = self.getCardNameAndValue(self.cardNumber)
         self.messageText.setValue('Starting card is '+self.currentCardName + '. Will the next card be higher or lower?')
     
     def getCardNameAndValue(self,index):
@@ -78,6 +78,31 @@ class Game():
 
             else:
                 self.score = self.score - Game.POINTS_INCORRECT
+                self.messageText.setValue("No the "+nextCardName + ' was not higher')
+                self.loserSound.play()
+
+        else: #user thi the lower button
+            if nextCardValue < self.currentCardValue:
+                self.score = self.score + Game.POINTS_CORRECT
+                self.messageText.setValue('Yes the '+nextCardName+' was lower')
+                self.winnerSound.play()
+            else:
+                self.score = self.score -Game.POINTS_INCORRECT
+                self.messageText.setValue('No, the'+nextCardName+' was not lower')
+                self.loserSound.play()
+
+        self.scoreText.setValue('Score: '+str(self.score))
+        self.currentCardName = nextCardValue #set up for the next card
+        done = (self.cardNumber == (Game.NCARDS - 1)) #did we reach the last card?
+        return done
+    
+    def draw(self):
+        #tell each card to draw itself
+        for oCard in self.cardList:
+            oCard.draw()
+
+        self.scoreText.draw()
+        self.messageText.draw()
                 
     
 
